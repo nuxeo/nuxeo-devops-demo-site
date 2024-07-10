@@ -103,7 +103,7 @@ EOF
 
 cd ${demo_dir}
 echo "Please wait, getting things ready..."
-docker pull --quiet ${FROM_IMAGE}
+docker pull --quiet ${NUXEO_IMAGE}
 echo " pulling other services..."
 docker compose pull
 echo ""
