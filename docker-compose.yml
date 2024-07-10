@@ -4,14 +4,14 @@ services:
       context: .
       dockerfile: build_nuxeo/Dockerfile
       args:
-        - "INSTALL_RPM=${INSTALL_RPM}"
         - "CONNECT_URL=${CONNECT_URL}"
         - "NUXEO_CLID=${NUXEO_CLID}"
         - "NUXEO_PACKAGES=${NUXEO_PACKAGES}"
         - "NUXEO_IMAGE=${NUXEO_IMAGE}"
+        - "NUXEO_ENV=${NUXEO_ENV}"
     env_file:
       - ./.env
-    image: presales-nuxeo-${PROJECT_NAME}
+    image: nuxeo-demo-${NUXEO_ENV}
     hostname: nuxeo
     restart: unless-stopped
     depends_on:
@@ -42,7 +42,7 @@ services:
     hostname: mongo
     restart: unless-stopped
     healthcheck:
-      test: echo 'db.stats().ok' | mongo mongo:27017/test --quiet
+      test: echo 'db.stats().ok' | mongosh mongo:27017/test --quiet
       interval: 1m
       timeout: 30s
       retries: 10
@@ -63,7 +63,7 @@ services:
         - "OPENSEARCH_IMAGE=${OPENSEARCH_IMAGE}"
     env_file:
       - ./.env
-    image: presales-opensearch-${PROJECT_NAME}
+    image: nuxeo-demo-opensearch-${NUXEO_ENV}
     hostname: opensearch
     restart: unless-stopped
     healthcheck:
