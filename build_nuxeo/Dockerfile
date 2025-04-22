@@ -26,9 +26,12 @@ ENV LANG="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8"
 
 # Install FFmpeg, mediainfo and codecs
-RUN dnf config-manager --set-enabled crb && dnf -y install epel-release && \
+RUN dnf -y install dnf-plugins-core && \
+    dnf config-manager --set-enabled crb && \
+    dnf -y install epel-release && \
     dnf -y install https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-9.noarch.rpm && \
-    dnf -y install mediainfo ffmpeg x264 x265 opus flac libvpx && dnf --enablerepo=crb -y install libvorbis-devel
+    dnf -y install mediainfo ffmpeg x264 x265 opus flac libvpx && \
+    dnf --enablerepo=crb -y install libvorbis-devel
 
 # Install Fonts
 RUN dnf -y install google-noto-sans-cjk-jp-fonts
@@ -45,7 +48,6 @@ RUN dnf -y install librsvg2-tools && dnf --enablerepo=devel -y install libwebp-t
 
 # Add additional RPMs to the source image
 RUN if [ -n "${INSTALL_RPM}" ]; then dnf -y install ${INSTALL_RPM}; fi
-
 
 # !!! DO NOT CHANGE ABOVE THIS LINE !!!
 
